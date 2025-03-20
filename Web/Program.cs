@@ -43,6 +43,8 @@ namespace Web
 
             app.UseHttpsRedirection();
             app.UseAuthorization();
+            app.UseErrorHandler();
+            app.UseCors();
             app.MapControllers();
             app.Run();
         }

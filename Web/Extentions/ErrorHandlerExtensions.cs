@@ -27,11 +27,26 @@ public static class ErrorHandlerExtensions
                     _ => (int)HttpStatusCode.InternalServerError
                 };
 
-                var errorResponse = new
+                // Definisikan interface untuk respons error
+                object errorResponse;
+
+                if (contextFeature.Error is BadRequestException badRequestEx)
                 {
-                    statusCode = context.Response.StatusCode,
-                    message = contextFeature.Error.GetBaseException().Message
-                };
+                    errorResponse = new
+                    {
+                        statusCode = context.Response.StatusCode,
+                        message = badRequestEx.Message,
+                        errors = badRequestEx.Errors
+                    };
+                }
+                else
+                {
+                    errorResponse = new
+                    {
+                        statusCode = context.Response.StatusCode,
+                        message = contextFeature.Error.GetBaseException().Message
+                    };
+                }
 
                 await context.Response.WriteAsync(JsonSerializer.Serialize(errorResponse));
             });

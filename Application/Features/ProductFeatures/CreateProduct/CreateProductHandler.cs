@@ -6,23 +6,24 @@ using System.Threading.Tasks;
 using Application.Repositories;
 using AutoMapper;
 using Domain.Entity;
+using MediatR;
 
 namespace Application.Features.ProductFeatures.CreateProduct
 {
-    public class CreateProductHandler
+    public class CreateProductHandler : IRequestHandler<CreateProductRequest, CreateProductResponse>
     {
         private IProductRepository _productRepository;
         private IUnitOfWork _unitOfWork;
-        private Mapper _mapper;
+        private IMapper _mapper;
        
-        public CreateProductHandler(IProductRepository productRepository, IUnitOfWork unitOfWork, Mapper mapper)
+        public CreateProductHandler(IProductRepository productRepository, IUnitOfWork unitOfWork, IMapper mapper)
         {
             _productRepository = productRepository;
             _unitOfWork = unitOfWork;
             _mapper = mapper;
         }
 
-        public async Task<CreateProductResponse> Handler(CreateProductRequest createProductRequest, CancellationToken cancellationToken)
+        public async Task<CreateProductResponse> Handle(CreateProductRequest createProductRequest, CancellationToken cancellationToken)
         {
             var product = _mapper.Map<Product>(createProductRequest);
             _productRepository.Add(product);

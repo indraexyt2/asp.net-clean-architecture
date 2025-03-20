@@ -20,6 +20,7 @@ namespace Infrastructure.Repositories
         }
         public void Add(T entity)
         {
+            entity.DateCreated = DateTimeOffset.UtcNow;
             _context.Add(entity);
         }
 
