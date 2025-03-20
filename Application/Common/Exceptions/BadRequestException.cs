@@ -9,13 +9,18 @@ namespace Application.Common.Exceptions
 {
     public class BadRequestException : Exception
     {
-        public BadRequestException(string message) : base(message) { }
+        public string Status {  get; set; }
+        public string[] Errors { get; set; }
 
-        public BadRequestException(string[] errors) : base("Terjadi beberapa kesalahan")
+        public BadRequestException(string status, string message) : base(message)
         {
-            Errors = errors;
+            Status = status;
         }
 
-        public string[] Errors { get; private set; }
+        public BadRequestException(string status, string message, string[] errors) : base(message)
+        {
+            Status = status;
+            Errors = errors;
+        }
     }
 }

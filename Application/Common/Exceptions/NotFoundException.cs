@@ -8,6 +8,10 @@ namespace Application.Common.Exceptions
 {
     public class NotFoundException : Exception
     {
-        public NotFoundException(string message) : base(message) { }
+        public string Status {  get; set; }
+        public NotFoundException(string status, string message) : base(message)
+        {
+            Status = status;
+        }
     }
 }

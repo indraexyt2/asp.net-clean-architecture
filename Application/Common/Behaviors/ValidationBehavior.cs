@@ -33,7 +33,7 @@ namespace Application.Common.Behaviors
            .ToArray();
 
             if (errors.Any())
-                throw new BadRequestException(errors);
+                throw new BadRequestException("Error", "Validasi Gagal!", errors);
 
             return await next();
         }

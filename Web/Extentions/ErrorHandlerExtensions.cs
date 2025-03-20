@@ -27,19 +27,24 @@ public static class ErrorHandlerExtensions
                     _ => (int)HttpStatusCode.InternalServerError
                 };
 
-                // Definisikan interface untuk respons error
                 object errorResponse;
 
                 if (contextFeature.Error is BadRequestException badRequestEx)
                 {
                     errorResponse = new
                     {
-                        statusCode = context.Response.StatusCode,
+                        status = badRequestEx.Status,
                         message = badRequestEx.Message,
                         errors = badRequestEx.Errors
                     };
-                }
-                else
+                } else if (contextFeature.Error is NotFoundException notFoundEx)
+                {
+                    errorResponse = new
+                    {
+                        status = notFoundEx.Status,
+                        message = notFoundEx.Message
+                    };
+                } else
                 {
                     errorResponse = new
                     {
